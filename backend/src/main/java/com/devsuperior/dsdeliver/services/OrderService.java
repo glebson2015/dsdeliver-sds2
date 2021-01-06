@@ -20,7 +20,7 @@ import com.devsuperior.dsdeliver.repositories.ProductRepository;
 public class OrderService {
 	
 	@Autowired
-	private OrderRepository repository;
+	private OrderRepository repository;//Esse é o orderRepository utilizado na Classe
 	
 	@Autowired
 	private ProductRepository productRepository;
@@ -43,5 +43,14 @@ public class OrderService {
 		}
 		order = repository.save(order);
 		return new OrderDTO(order);
+	}
+	//Transational = Será uma alteração no Banco de Dados
+	@Transactional
+	public OrderDTO setDelivered(Long id){
+		Order order = repository.getOne(id);
+		order.setStatus(OrderStatus.DELIVERED);
+		order = repository.save(order);
+		return new OrderDTO(order);
+		
 	}
 }
